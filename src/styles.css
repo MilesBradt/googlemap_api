@@ -1,0 +1,16 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.bikeOutputFormat {
+  border: solid gray;
+  background-color: lightyellow;
+}
+
+#map {
+  height: 75%;
+  width: 75%;
+  margin: auto;
+}
