@@ -16,7 +16,27 @@ $(document).ready(function() {
     let body = JSON.parse(response)
     let latitude = body.results[0].geometry.location.lat
     let long = body.results[0].geometry.location.lng
-    $(".testing").prepend("let latitude = " + body.results[0].geometry.location.lat  + "let long = " + body.results[0].geometry.location.lng)
+    return [latitude, long]
+  })
+  .then(function(latLongArray){
+    let script = document.createElement("script");
+    script.innerHTML = `let map;
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 45.5122, lng: -122.6587},
+        zoom: 12
+      });
+      let marker = new google.maps.Marker({position: {lat: ${latLongArray[0]}, lng: ${latLongArray[1]}}, map: map});
+    }
+    `
+    let body = document.getElementById('body');
+    body.prepend(script);
+  })
+  .then(function() {
+    let mapScript = document.createElement("script");
+    mapScript.setAttribute("src", 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC9lMrrD9IIguOMmDBYH9oPJW44zxCX5GA&callback=initMap');
+    let body = document.getElementById('body');
+    body.append(mapScript);
   });
 
   let dinoNames = new DinoSpam();
